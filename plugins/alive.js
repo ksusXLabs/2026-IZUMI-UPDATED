@@ -13,17 +13,14 @@ async (ksasmitha, mek, m, {
 }) => {
     try {
 
-        // DATE & TIME
         const now = new Date();
         const date = now.toLocaleDateString();
         const time = now.toLocaleTimeString();
 
-        // SYSTEM INFO
         const uptime = process.uptime();
         const memory = `${Math.round(process.memoryUsage().rss / 1024 / 1024)} MB`;
         const host = os.hostname();
 
-        // MESSAGE FORMAT
         let caption = config.ALIVE_MSG
             .replace(/{user}/g, m.pushName || "User")
             .replace(/{date}/g, date)
@@ -32,7 +29,7 @@ async (ksasmitha, mek, m, {
             .replace(/{uptime}/g, `${Math.floor(uptime)}s`)
             .replace(/{memory}/g, memory);
 
-        // FAKE META QUOTE
+        // FAKE META
         const meta = {
             key: {
                 participant: `13135550002@s.whatsapp.net`,
@@ -42,11 +39,11 @@ async (ksasmitha, mek, m, {
             },
             message: {
                 contactMessage: {
-                    displayName: 'Danuz',
+                    displayName: 'RabbitZz',
                     vcard: `BEGIN:VCARD
 VERSION:3.0
-N:Danuz;;;;
-FN:Danzz
+N:Sazzy;;;;
+FN:Sazyy
 TEL;waid=13135550002:+1 313 555 0002
 END:VCARD`
                 }
@@ -54,16 +51,15 @@ END:VCARD`
             pushName: 'Meta AI'
         };
 
-        // SEND MESSAGE WITH LINK PREVIEW
+        // SEND ONLY LINK PREVIEW (NO IMAGE MESSAGE)
         await ksasmitha.sendMessage(from, {
-            image: { url: config.ALIVE_IMG },
-            caption: caption,
+            text: caption,
             contextInfo: {
                 externalAdReply: {
                     title: "IZUMI-LITE BOT",
                     body: "Powered by Dev.RabbitZz 🥕",
-                    thumbnailUrl: config.ALIVE_IMG,
-                    sourceUrl: config.ALIVE_IMG,
+                    thumbnailUrl: config.ALIVE_PREVIEW_IMG,
+                    sourceUrl: config.ALIVE_PREVIEW_IMG,
                     mediaType: 1,
                     renderLargerThumbnail: true
                 }
