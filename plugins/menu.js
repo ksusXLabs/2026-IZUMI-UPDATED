@@ -1,5 +1,7 @@
 const { cmd, commands } = require("../command");
 
+const menuState = {}; // chat-based memory
+
 cmd(
   {
     pattern: "menu",
@@ -46,44 +48,14 @@ END:VCARD`
         pushName: 'Meta AI'
       };
 
-      // IF NUMBER REPLY → SHOW COMMANDS
-      const userInput = m.text?.trim();
-      if (userInput && /^\d+$/.test(userInput)) {
-        const index = parseInt(userInput) - 1;
+      // SAVE STATE
+      menuState[from] = {
+        categories,
+        catNames
+      };
 
-        if (!catNames[index]) {
-          return reply("❌ Invalid category number.");
-        }
-
-        const cat = catNames[index];
-        let text = `📂 *${cat.toUpperCase()} COMMANDS*\n\n`;
-
-        categories[cat].forEach(cmd => {
-          text += `• .${cmd.pattern}\n  └ ${cmd.desc}\n\n`;
-        });
-
-        return await ksasmitha.sendMessage(
-          from,
-          {
-            text: text.trim(),
-            contextInfo: {
-              externalAdReply: {
-                title: "IZUMI-LITE BOT",
-                body: `Category: ${cat.toUpperCase()}`,
-                thumbnailUrl: "https://files.catbox.moe/xt7238.webp",
-                sourceUrl: "https://files.catbox.moe/xt7238.webp",
-                mediaType: 1,
-                renderLargerThumbnail: true
-              }
-            }
-          },
-          { quoted: meta }
-        );
-      }
-
-      // DEFAULT MENU (CATEGORIES ONLY)
+      // SEND CATEGORY MENU
       let menuText = `📋 *COMMAND CATEGORIES*\n\nReply with the number 👇\n\n`;
-
       catNames.forEach((c, i) => {
         menuText += `${i + 1}. ${c.toUpperCase()}\n`;
       });
