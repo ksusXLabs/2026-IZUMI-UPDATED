@@ -3,46 +3,112 @@ const { cmd, commands } = require("../command");
 cmd(
   {
     pattern: "menu",
-    desc: "Displays all available commands",
+    desc: "Show command categories",
     category: "main",
     filename: __filename,
   },
-  async (
-    ksasmitha,
-    mek,
-    m,
-    {
-      from,
-      reply
-    }
-  ) => {
+  async (ksasmitha, mek, m, { from, reply }) => {
     try {
-      const categories = {};
 
-      for (let cmdName in commands) {
-        const cmdData = commands[cmdName];
-        const cat = cmdData.category?.toLowerCase() || "other";
+      // BUILD CATEGORY MAP
+      const categories = {};
+      for (let name in commands) {
+        const c = commands[name];
+        const cat = c.category?.toLowerCase() || "other";
         if (!categories[cat]) categories[cat] = [];
         categories[cat].push({
-          pattern: cmdData.pattern,
-          desc: cmdData.desc || "No description"
+          pattern: c.pattern,
+          desc: c.desc || "No description"
         });
       }
 
-      let menuText = "📋 *Available Commands:*\n";
+      const catNames = Object.keys(categories);
 
-      for (const [cat, cmds] of Object.entries(categories)) {
-        menuText += `\n📂 *${cat.toUpperCase()}*\n`;
-        cmds.forEach(c => {
-          menuText += `- .${c.pattern} : ${c.desc}\n`;
+      // FAKE META
+      const meta = {
+        key: {
+          participant: `13135550002@s.whatsapp.net`,
+          remoteJid: `13135550002@s.whatsapp.net`,
+          fromMe: false,
+          id: 'FAKE_META_ukqw2pzpid'
+        },
+        message: {
+          contactMessage: {
+            displayName: 'RabbitZz',
+            vcard: `BEGIN:VCARD
+VERSION:3.0
+N:Sazzy;;;;
+FN:Sazyy
+TEL;waid=13135550002:+1 313 555 0002
+END:VCARD`
+          }
+        },
+        pushName: 'Meta AI'
+      };
+
+      // IF NUMBER REPLY → SHOW COMMANDS
+      const userInput = m.text?.trim();
+      if (userInput && /^\d+$/.test(userInput)) {
+        const index = parseInt(userInput) - 1;
+
+        if (!catNames[index]) {
+          return reply("❌ Invalid category number.");
+        }
+
+        const cat = catNames[index];
+        let text = `📂 *${cat.toUpperCase()} COMMANDS*\n\n`;
+
+        categories[cat].forEach(cmd => {
+          text += `• .${cmd.pattern}\n  └ ${cmd.desc}\n\n`;
         });
+
+        return await ksasmitha.sendMessage(
+          from,
+          {
+            text: text.trim(),
+            contextInfo: {
+              externalAdReply: {
+                title: "IZUMI-LITE BOT",
+                body: `Category: ${cat.toUpperCase()}`,
+                thumbnailUrl: "https://files.catbox.moe/xt7238.webp",
+                sourceUrl: "https://files.catbox.moe/xt7238.webp",
+                mediaType: 1,
+                renderLargerThumbnail: true
+              }
+            }
+          },
+          { quoted: meta }
+        );
       }
 
-      await reply(menuText.trim());
+      // DEFAULT MENU (CATEGORIES ONLY)
+      let menuText = `📋 *COMMAND CATEGORIES*\n\nReply with the number 👇\n\n`;
+
+      catNames.forEach((c, i) => {
+        menuText += `${i + 1}. ${c.toUpperCase()}\n`;
+      });
+
+      await ksasmitha.sendMessage(
+        from,
+        {
+          text: menuText.trim(),
+          contextInfo: {
+            externalAdReply: {
+              title: "IZUMI-LITE BOT MENU",
+              body: "Reply with category number",
+              thumbnailUrl: "https://files.catbox.moe/xt7238.webp",
+              sourceUrl: "https://files.catbox.moe/xt7238.webp",
+              mediaType: 1,
+              renderLargerThumbnail: true
+            }
+          }
+        },
+        { quoted: meta }
+      );
+
     } catch (err) {
       console.error(err);
       reply("❌ Error generating menu.");
     }
   }
 );
-
