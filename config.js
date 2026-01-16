@@ -14,12 +14,12 @@ module.exports = {
     ALIVE_MSG: process.env.ALIVE_MSG || 
 `👋 𝐇𝐈, {user} 𝐈❜𝐀𝐌 𝐀𝐋𝐈𝐕𝐄 👾
 
-╭─「 \`DATE INFORMATION\` 」
+╭─「 ᴅᴀᴛᴇ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ 」
 │📅 \`Date\` : {date}
 │⏰ \`Time\` : {time}
 ╰──────────●●►
 
-╭─「 \`STATUS DETAILS\` 」
+╭─「 ꜱᴛᴀᴛᴜꜱ ᴅᴇᴛᴀɪʟꜱ 」
 │👤 \`User\` : {user}
 │✒️ \`Prefix\` : !
 │🧬 \`Version\` : v1.0.0
@@ -29,7 +29,7 @@ module.exports = {
 │📂 \`Memory\` : {memory}
 ╰──────────●●►
 
-> 🛠 Developer : Dev.RabbitZz 🥕`,
+> Use .Menu to check full menu <3`,
 
     // OWNER
     BOT_OWNER: '94752425527',
