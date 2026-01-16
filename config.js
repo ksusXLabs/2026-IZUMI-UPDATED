@@ -14,23 +14,29 @@ module.exports = {
     ALIVE_MSG: process.env.ALIVE_MSG || 
 `👋 𝐇𝐈, {user} 𝐈❜𝐀𝐌 𝐀𝐋𝐈𝐕𝐄 👾
 
-╭─「 ᴅᴀᴛᴇ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ 」
-│📅 Date : {date}
-│⏰ Time : {time}
+╭─「 \`DATE INFORMATION\` 」
+│📅 \`Date\` : {date}
+│⏰ \`Time\` : {time}
 ╰──────────●●►
 
-╭─「 ꜱᴛᴀᴛᴜꜱ ᴅᴇᴛᴀɪʟꜱ 」
-│👤 User : {user}
-│✒️ Prefix : !
-│🧬 Version : v1.0.0
-│🎈 Platform : Linux
-│📡 Host : {host}
-│📟 Uptime : {uptime}
-│📂 Memory : {memory}
+╭─「 \`STATUS DETAILS\` 」
+│👤 \`User\` : {user}
+│✒️ \`Prefix\` : !
+│🧬 \`Version\` : v1.0.0
+│🎈 \`Platform\` : Linux
+│📡 \`Host\` : {host}
+│📟 \`Uptime\` : {uptime}
+│📂 \`Memory\` : {memory}
 ╰──────────●●►
 
 > 🛠 Developer : Dev.RabbitZz 🥕`,
 
     // OWNER
-    BOT_OWNER: '94752425527'
+    BOT_OWNER: '94752425527',
+
+    // STATUS VIEW
+    AUTO_STATUS_SEEN: 'true',
+
+    // STATUS REACT
+    AUTO_STATUS_REACT: 'true'
 };
